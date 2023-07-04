@@ -1,0 +1,86 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+"""recipe """
+type Reply_schema {
+  author_uuid: String!
+  rate: Float!
+  comment: String!
+  reply: [Reply_schema!]!
+}
+
+"""recipe """
+type Comment_schema {
+  author_uuid: String!
+  rate: Float!
+  comment: String!
+  reply: [Reply_schema!]!
+}
+
+"""order """
+type Order_product_schema {
+  product_id: String!
+  number: Float!
+}
+
+"""recipe """
+type Order_schema {
+  order_products: [Order_product_schema!]!
+  description: String!
+  total_amount: Float!
+  order_uuid: String!
+}
+
+"""customer """
+type Customer_schema {
+  first_name: String!
+  last_name: String!
+  email: String!
+  phone_number: String!
+  password: String!
+  address: String!
+  profile_image: String!
+  uuid: String!
+  orders: [Order_schema!]!
+}
+
+"""recipe """
+type Error {
+  error_code: Float!
+  message: String!
+  path: String!
+}
+
+"""recipe """
+type Result {
+  result: String!
+  error: Error!
+}
+
+"""recipe """
+type Login_schema {
+  token: String
+  error: Error
+  user: Customer_schema
+}
+
+type Query {
+  login_by_email(email: String!, password: String!): Login_schema!
+  login_by_phone_number(phone_number: String!, password: String!): Login_schema!
+  password_less_login_by_email(email: String!): Result!
+  password_less_login_by_phone_number(phone_number: String!, code: String!): Result!
+}
+
+type Mutation {
+  get_login_code_by_email(email: String!): Result!
+  reset_password_args_by_email(email: String!, code: String!, new_password: String!): Result!
+  reset_password_by_phone_number(phone_number: String!, code: String!, new_password: String!): Result!
+  get_login_code_by_phone_number(phone_number: String!): Result!
+  get_register_code_by_email(email: String!): Result!
+  get_register_code_by_phone_number(phone_number: String!): Result!
+  register_by_email(email: String!, first_name: String!, last_name: String!, password: String!): Result!
+  register_by_phone_number(phone_number: String!, first_name: String!, last_name: String!, password: String!): Result!
+}

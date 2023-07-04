@@ -1,11 +1,51 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+type Reply {
+  author_uuid String
+  rate        Int
+  comment     String
+  reply       Reply[]
+}
+
+type Comment {
+  author_uuid String
+  rate        Int
+  comment     String
+  reply       Reply[]
+}
+
+model Product {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+type Order_product {
+  product_uuid String
+  number       Int
+}
+
+type Order {
+  order_products Order_product[]
+  description    String
+  total_amount   Float
+  order_uuid     String
+}
+
+model Customer {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  first_name    String
+  last_name     String
+  email         String
+  phone_number  String
+  password      String
+  address       String
+  profile_image String
+  uuid          String @unique
+  Orders        Order[]
 }

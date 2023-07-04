@@ -1,4 +1,4 @@
-interface Order_product {
+export interface Order_product {
   product_id: string;
   number: number;
 }

@@ -1,3 +1,5 @@
+import { Comment } from ".";
+
 interface Product {
   uuid: string;
   product_name: string;
@@ -6,3 +8,6 @@ interface Product {
   comments: Comment[];
   rate: number;
 }
+
+
+export default Product;
