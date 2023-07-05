@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { error } from 'src/domain/common/error';
+import error  from 'src/domain/common/error';
 
 @ObjectType({ description: 'recipe ' })
 export class Error implements error {

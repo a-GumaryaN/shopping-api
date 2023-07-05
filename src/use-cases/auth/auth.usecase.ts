@@ -1,10 +1,12 @@
 import { hash_service } from 'src/domain/adapters/hash_service';
 import { jwt_service } from 'src/domain/adapters/jwt.interface';
 import { login_schema } from 'src/domain/common/auth';
+import result from 'src/domain/common/result';
+import customer_repository from 'src/domain/repository/customer_repository';
 
 class Auth_use_case {
   constructor(
-    private customer_repository,
+    private customer_repository: customer_repository,
     private validator: auth_validator,
     private Hash_service: hash_service,
     private Token_service: jwt_service,
@@ -25,7 +27,10 @@ class Auth_use_case {
         user: null,
       };
     //checking existence of user
-    const user = await this.customer_repository.findOne({ email });
+    const user = await this.customer_repository.find_one(
+      { email: value.email },
+      { email: 1 },
+    );
     if (!user)
       return {
         error: {
@@ -51,6 +56,7 @@ class Auth_use_case {
         token: null,
         user: null,
       };
+
     //generate new jwt token
     const token = this.Token_service.generate_token(
       { uuid: user.uuid, role: 'customer' },
@@ -73,9 +79,12 @@ class Auth_use_case {
         user: null,
       };
     //checking existence of user
-    const user = await this.customer_repository.findOne({
-      phone_number: value.phone_number,
-    });
+    const user = await this.customer_repository.find_one(
+      {
+        phone_number: value.phone_number,
+      },
+      { phone_number: 1 },
+    );
     if (!user)
       return {
         error: {
@@ -110,13 +119,49 @@ class Auth_use_case {
     return { token, user, error: null };
   }
 
-  reset_password_by_email(email: string, code: string) {}
+  async reset_password_by_email(
+    email: string,
+    code: string,
+    new_password: string,
+  ): Promise<login_schema> {
+    return { token: 'token', user: null, error: null };
+  }
 
-  reset_password_by_phone_number(phone_number: string, code: string) {}
+  async reset_password_by_phone_number(
+    phone_number: string,
+    code: string,
+    new_password: string,
+  ): Promise<login_schema> {
+    return { token: 'token', user: null, error: null };
+  }
 
-  get_reset_code_by_email(email: string) {}
+  async get_reset_code_by_email(email: string): Promise<result> {
+    //validate email
+    //check existing email
+    //send code to user email
+    //return result
+    return { result: 'pass', error: null };
+  }
 
   get_reset_code_by_phone_number(email: string) {}
+
+  async get_login_code_email_number(email: string): Promise<result> {
+    return { result: 'pass', error: null };
+  }
+  async get_login_code_by_phone_number(phone_number: string) {
+    return { result: 'pass', error: null };
+  }
+
+  async password_less_login_by_email(email: string, code: string) {
+    return { result: 'pass', error: null };
+  }
+
+  async password_less_login_by_phone_number(
+    phone_number: string,
+    code: string,
+  ) {
+    return { result: 'pass', error: null };
+  }
 }
 
 export default Auth_use_case;

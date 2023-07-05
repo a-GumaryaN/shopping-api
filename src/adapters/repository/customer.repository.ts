@@ -1,7 +1,11 @@
 import { Base_repository } from '.';
 import { Customer } from 'src/domain/model';
+import customer_repository from 'src/domain/repository/customer_repository';
 
-class Customer_repository extends Base_repository<Customer> {
+class Customer_repository
+  extends Base_repository<Customer>
+  implements customer_repository
+{
   constructor() {
     super('customer');
   }

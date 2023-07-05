@@ -54,10 +54,10 @@ type Error {
   path: String!
 }
 
-"""recipe """
+"""result """
 type Result {
-  result: String!
-  error: Error!
+  result: String
+  error: Error
 }
 
 """recipe """
@@ -70,13 +70,13 @@ type Login_schema {
 type Query {
   login_by_email(email: String!, password: String!): Login_schema!
   login_by_phone_number(phone_number: String!, password: String!): Login_schema!
-  password_less_login_by_email(email: String!): Result!
+  password_less_login_by_email(email: String!, code: String!): Result!
   password_less_login_by_phone_number(phone_number: String!, code: String!): Result!
 }
 
 type Mutation {
   get_login_code_by_email(email: String!): Result!
-  reset_password_args_by_email(email: String!, code: String!, new_password: String!): Result!
+  reset_password_by_email(email: String!, code: String!, new_password: String!): Result!
   reset_password_by_phone_number(phone_number: String!, code: String!, new_password: String!): Result!
   get_login_code_by_phone_number(phone_number: String!): Result!
   get_register_code_by_email(email: String!): Result!

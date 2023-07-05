@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Query } from '@nestjs/common';
 import Customer_resolver from './customer.resolver';
 
 @Module({

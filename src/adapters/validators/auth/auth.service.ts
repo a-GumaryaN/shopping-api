@@ -2,7 +2,7 @@ const Validator = require("fastest-validator");
 
 const v = new Validator();
 const login_with_email_schema = {
-  email: { type: 'string', max: 255 },
+  email: { type: 'email', max: 255 },
   password: { type: 'string', max: 40 },
 };
 
@@ -14,11 +14,11 @@ const login_with_phone_number_schema = {
 class Auth_validator_service implements auth_validator {
   login_with_email_validator(email: string, password: string) {
     const check = v.compile(login_with_email_schema);
-    const error = check({ id: 5, name: 'John', status: true });
+    const error = check({ email,password });
 
-    const result = error
+    const result = error!==true
       ? {
-          error: error,
+          error: error[0].message,
           value: null,
         }
       : {
@@ -30,11 +30,11 @@ class Auth_validator_service implements auth_validator {
 
   login_with_phone_number_validator(phone_number: string, password: string) {
     const check = v.compile(login_with_phone_number_schema);
-    const error = check({ id: 5, name: 'John', status: true });
+    const error = check({ phone_number , password });
 
-    const result = error
+    const result = error!==true
       ? {
-          error: error,
+          error: error[0].message,
           value: null,
         }
       : {

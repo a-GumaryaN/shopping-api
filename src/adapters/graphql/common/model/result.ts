@@ -1,10 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import result from "src/domain/common/result"
 import { Error } from './error';
 
-@ObjectType({ description: 'recipe ' })
+@ObjectType({ description: 'result ' })
 export class Result {
-  @Field()
+  @Field({nullable:true})
   result?: string;
-  @Field()
+  @Field({nullable:true})
   error?: Error;
 }
