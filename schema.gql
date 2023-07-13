@@ -75,7 +75,6 @@ type Query {
 }
 
 type Mutation {
-  get_login_code_by_email(email: String!): Result!
   reset_password_by_email(email: String!, code: String!, new_password: String!): Result!
   reset_password_by_phone_number(phone_number: String!, code: String!, new_password: String!): Result!
   get_login_code_by_phone_number(phone_number: String!): Result!

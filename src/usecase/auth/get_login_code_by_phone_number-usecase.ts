@@ -1,0 +1,67 @@
+import result from 'src/domain/common/result';
+import customer_repository from 'src/domain/repository/customer_repository';
+import { send_validation_code } from 'src/domain/services/code.sender';
+import { auth_validator } from 'src/domain/validators/auth';
+import code_generator from 'src/domain/services/code_generator';
+import code_repository from 'src/domain/repository/code_repository';
+
+class Get_login_code_by_phone_number {
+  constructor(
+    private customer_repository: customer_repository,
+    private code_repository: code_repository,
+    private validator: auth_validator,
+    private SMS_service: send_validation_code,
+    private code_generator: code_generator,
+  ) {}
+
+  /**
+   * sms code to user with phone number for password-less login
+   * @param phone_number
+   * @returns result
+   * @returns error object
+   */
+  async action(phone_number: string): Promise<result> {
+    const path = 'get login code_by phone number';
+    //validate input data
+    const { error, value } = this.validator.phone_number_validator({
+      phone_number,
+    });
+    if (error)
+      return {
+        error: {
+          error_code: 123,
+          message: error,
+          path,
+        },
+      };
+    //check existence of user
+    const user = await this.customer_repository.find_one(
+      { phone_number: value.phone_number },
+      { phone_number: 1 },
+    );
+    if (!user)
+      return {
+        error: {
+          error_code: 123,
+          message: 'User not found',
+          path,
+        },
+      };
+    // generate new  code
+    const code = this.code_generator.generate();
+    //sms code to client
+    await this.SMS_service.sender(user.phone_number, code);
+    //save new code to database
+    const new_code: code = {
+      code,
+      target: 'password less login',
+      phone_number,
+      email: '',
+    };
+    await this.code_repository.add_new(new_code);
+    //send result to client
+    return { result: 'code sms to client', error: null };
+  }
+}
+
+export default Get_login_code_by_phone_number;

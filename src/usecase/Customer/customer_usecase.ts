@@ -1,5 +1,5 @@
-import { hash_service } from 'src/domain/adapters/hash_service';
-import { jwt_service } from 'src/domain/adapters/jwt.interface';
+import { hash_service } from 'src/domain/services/hash_service';
+import { jwt_service } from 'src/domain/services/jwt.interface';
 import { login_schema } from 'src/domain/common/auth';
 import customer_repository from 'src/domain/repository/customer_repository';
 

@@ -1,8 +1,9 @@
-import  error  from 'src/adapters/common/model/error';
+import error from "./error";
+
 
 interface result {
   result?: string;
-  error?: Error;
+  error?: error;
 }
 
 

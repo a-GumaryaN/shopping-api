@@ -2,7 +2,7 @@ import { MinLength, MaxLength } from 'class-validator';
 import { Field, ArgsType } from '@nestjs/graphql';
 
 @ArgsType()
-export class Login_by_email {
+export class Login_by_email_args {
   @Field({ nullable: false })
   @MaxLength(255)
   email: string;
@@ -14,7 +14,7 @@ export class Login_by_email {
 
 
 @ArgsType()
-export class Login_by_phone_number {
+export class Login_by_phone_number_args {
   @Field({ nullable: false })
   @MaxLength(40)
   phone_number: string;
@@ -25,7 +25,7 @@ export class Login_by_phone_number {
 }
 
 @ArgsType()
-export class Reset_password_by_email {
+export class Reset_password_by_email_args {
   @Field()
   @MaxLength(255)
   email: string;
@@ -40,7 +40,7 @@ export class Reset_password_by_email {
 }
 
 @ArgsType()
-export class Reset_password_by_phone_number {
+export class Reset_password_by_phone_number_args {
   @Field()
   @MaxLength(40)
   phone_number: string;
@@ -56,21 +56,21 @@ export class Reset_password_by_phone_number {
 
 @ArgsType()
 @ArgsType()
-export class Get_login_code_by_email {
+export class Get_login_code_by_email_args {
   @Field()
   @MaxLength(255)
   email: string;
 }
 
 @ArgsType()
-export class Get_login_code_by_phone_number {
+export class Get_login_code_by_phone_number_args {
   @Field()
   @MaxLength(40)
   phone_number: string;
 }
 
 @ArgsType()
-export class Password_less_login_by_email {
+export class Password_less_login_by_email_args {
   @Field()
   @MaxLength(255)
   email: string;
@@ -81,7 +81,7 @@ export class Password_less_login_by_email {
 }
 
 @ArgsType()
-export class Password_less_login_by_phone_number {
+export class Password_less_login_by_phone_number_args {
   @Field()
   @MaxLength(20)
   phone_number: string;
