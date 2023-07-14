@@ -41,7 +41,7 @@ class Password_less_login_by_phone_number {
     //check existence of user
     const registered_code = await this.code_repository.find_one(
       { phone_number, target: 'password less' },
-      { phone_number: 1, code },
+      { phone_number: true, code:true },
     );
     if (!registered_code)
       return {

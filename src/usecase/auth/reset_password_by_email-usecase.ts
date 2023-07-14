@@ -48,7 +48,7 @@ class Reset_password_by_email {
     //check code
     const registered_code = await this.code_repository.find_one(
       { target: 'reset password', email },
-      { code },
+      { code: true },
     );
     if (!registered_code)
       return {
@@ -78,7 +78,10 @@ class Reset_password_by_email {
       { email },
       { password: hashed_new_password },
     );
-    const user = await this.customer_repository.find_one({ email }, {});
+    const user = await this.customer_repository.find_one(
+      { email },
+      { uuid: true },
+    );
     const token = this.Token_service.generate_token(
       { uuid: user.uuid, role: 'customer' },
       '1d',

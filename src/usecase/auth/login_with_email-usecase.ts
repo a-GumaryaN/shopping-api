@@ -41,7 +41,7 @@ class Login_by_email {
     //checking existence of user
     const user = await this.customer_repository.find_one(
       { email: value.email },
-      { email: 1 },
+      { email: true },
     );
     if (!user)
       return {

@@ -39,7 +39,7 @@ class Password_less_login_by_email {
     //check existence of user
     const user = await this.customer_repository.find_one(
       { email },
-      { email: 1 },
+      { email: true },
     );
     if (!user)
       return {
@@ -54,7 +54,7 @@ class Password_less_login_by_email {
     //check validity of code
     const registered_code = await this.code_repository.find_one(
       { email, target: 'password less' },
-      { code: 1, target: 1 },
+      { code: true, target: true },
     );
     if (!registered_code)
       return {

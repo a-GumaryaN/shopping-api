@@ -43,7 +43,7 @@ class Login_by_phone_number {
       {
         phone_number: value.phone_number,
       },
-      { phone_number: 1 },
+      { phone_number: true },
     );
     if (!user)
       return {

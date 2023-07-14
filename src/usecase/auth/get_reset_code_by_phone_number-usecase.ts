@@ -35,7 +35,7 @@ class Get_reset_code_by_phone_number {
     //check existing email
     const user = this.customer_repository.find_one(
       { phone_number: value.phone_number },
-      { phone_number: 1 },
+      { phone_number: true },
     );
     if (!user)
       return {

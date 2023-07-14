@@ -23,12 +23,12 @@ const phone_number_schema = {
 
 const password_less_login_by_email_schema = {
   email: { type: 'email', max: 255 },
-  password: { type: 'string', max: 40 },
+  code: { type: 'string', max: 40 },
 };
 
 const password_less_login_by_phone_number_schema = {
   phone_number: { type: 'email', max: 255 },
-  password: { type: 'string', max: 40 },
+  code: { type: 'string', max: 40 },
 };
 
 const reset_password_by_email_schema = {

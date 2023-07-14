@@ -35,7 +35,7 @@ class Get_reset_code_by_email {
     //check existing email
     const user = this.customer_repository.find_one(
       { email: value.email },
-      { email: 1 },
+      { email: true },
     );
     if (!user)
       return {

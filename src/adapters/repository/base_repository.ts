@@ -3,13 +3,15 @@ import base_repository from 'src/domain/repository/base_repository';
 
 class repository<Model> implements base_repository<Model> {
   public Model;
+  private readonly prisma_model_name: string;
+  private Prisma_client;
 
-  constructor(
-    private readonly prisma_model_name: string,
-    private Prisma_client = new PrismaClient(),
-  ) {
+  constructor(Prisma_client: string) {
+    this.Prisma_client = Prisma_client;
+    this.Prisma_client = new PrismaClient();
     this.Model = Prisma_client[this.prisma_model_name];
   }
+
 
   async add_new(new_object: Partial<Model>) {
     const object = await this.Model.customer.create(new_object);

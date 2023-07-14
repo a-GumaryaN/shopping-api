@@ -1,5 +1,5 @@
-import { Field, InputType } from '@nestjs/graphql';
 import { MaxLength } from 'class-validator';
+import { Field, InputType } from '@nestjs/graphql';
 import { Product } from 'src/domain/model';
 
 @InputType()

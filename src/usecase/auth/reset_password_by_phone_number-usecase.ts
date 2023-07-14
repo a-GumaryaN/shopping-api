@@ -48,7 +48,7 @@ class Reset_password_by_phone_number {
     //check code
     const registered_code = await this.code_repository.find_one(
       { target: 'reset password', phone_number },
-      { code },
+      { code:true },
     );
     if (!registered_code)
       return {

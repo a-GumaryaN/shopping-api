@@ -37,7 +37,7 @@ class Get_login_code_by_phone_number {
     //check existence of user
     const user = await this.customer_repository.find_one(
       { phone_number: value.phone_number },
-      { phone_number: 1 },
+      { phone_number: true },
     );
     if (!user)
       return {
