@@ -1,6 +1,8 @@
-import { Product } from 'src/domain/model';
-import validator_proxy from '../validator.proxy';
+import { Product } from "src/domain/model";
+import validator_proxy from "../validator.proxy";
 
-interface auth_validator {
-  add_product_validator: validator_proxy<Product>;
+interface add_product_validator {
+  validate: validator_proxy<Pick<Product, "price" | "product_name">>;
 }
+
+export default add_product_validator;

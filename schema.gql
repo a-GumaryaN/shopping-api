@@ -4,7 +4,7 @@
 
 directive @upper on FIELD_DEFINITION
 
-"""recipe """
+"""Reply """
 type Reply_schema {
   author_uuid: String!
   rate: Float!
@@ -12,12 +12,22 @@ type Reply_schema {
   reply: [Reply_schema!]!
 }
 
-"""recipe """
+"""Comment """
 type Comment_schema {
   author_uuid: String!
   rate: Float!
   comment: String!
   reply: [Reply_schema!]!
+}
+
+"""product """
+type Product_schema {
+  uuid: String!
+  product_name: String!
+  price: Float!
+  images: [String!]!
+  comments: [Comment_schema!]!
+  rate: Float!
 }
 
 """order """
@@ -72,6 +82,7 @@ type Query {
   login_by_phone_number(phone_number: String!, password: String!): Login_schema!
   password_less_login_by_email(email: String!, code: String!): Result!
   password_less_login_by_phone_number(phone_number: String!, code: String!): Result!
+  get_products_by_category(category: String!): [Product_schema!]!
 }
 
 type Mutation {

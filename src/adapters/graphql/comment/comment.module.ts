@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import Order_resolver from './comment.resolver';
+import Comment_resolver from './comment.resolver';
 
 @Module({
-  providers: [Order_resolver],
+  providers: [Comment_resolver],
 })
 export class Order_module {}
 

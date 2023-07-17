@@ -13,7 +13,6 @@ import {
 } from 'src/usecase/auth';
 
 import {
-  Get_login_code_by_email_args,
   Get_login_code_by_phone_number_args,
   Login_by_email_args,
   Login_by_phone_number_args,
@@ -25,7 +24,7 @@ import {
 import { Result } from '../common/model/result';
 import { Inject } from '@nestjs/common';
 import result from 'src/domain/common/result';
-import Usecase_proxy_module from 'src/adapters/usecase-proxy/usercase-proxy.module';
+import Usecase_proxy_module from 'src/adapters/usecase-proxy/auth/usercase-proxy.module';
 
 @Resolver((of) => Login_schema)
 class Auth_resolver {

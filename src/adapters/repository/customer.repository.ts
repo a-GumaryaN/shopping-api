@@ -1,5 +1,4 @@
 import { __Schema } from 'graphql';
-import { Base_repository } from '.';
 import { Customer } from 'src/domain/model';
 import customer_repository from 'src/domain/repository/customer_repository';
 import { PrismaClient} from '@prisma/client';
@@ -70,7 +69,7 @@ class Customer_repository implements customer_repository {
     identifire: Partial<Customer>,
     new_object: Partial<Customer>,
   ) {
-    await customer_model.update({ where: identifire, data: new_object });
+    // await customer_model.update({ where: {}, data: new_object });
     await prisma_client.$disconnect();
     return true;
   }
@@ -86,7 +85,5 @@ class Customer_repository implements customer_repository {
     return object;
   }
 }
-
-const _ = new Base_repository('customer');
 
 export default Customer_repository;

@@ -3,11 +3,12 @@ import { jwt_service } from 'src/domain/services/jwt.interface';
 import { login_schema } from 'src/domain/common/auth';
 import customer_repository from 'src/domain/repository/customer_repository';
 import { auth_validator } from 'src/domain/validators/auth';
+import login_with_email_validator from 'src/domain/validators/Auth/login_with_email';
 
 class Login_by_email {
   constructor(
     private customer_repository: customer_repository,
-    private validator: auth_validator,
+    private validator: login_with_email_validator,
     private Hash_service: hash_service,
     private Token_service: jwt_service,
   ) {}
@@ -28,7 +29,7 @@ class Login_by_email {
     password: string;
   }): Promise<login_schema> {
     //validation input data
-    const { error, value } = this.validator.login_with_email_validator({
+    const { error, value } = this.validator.validate({
       email,
       password,
     });

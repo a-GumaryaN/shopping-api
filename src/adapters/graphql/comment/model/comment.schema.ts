@@ -1,7 +1,7 @@
 import { Directive, Field, ID, ObjectType } from '@nestjs/graphql';
 import { Comment, Reply } from 'src/domain/model';
 
-@ObjectType({ description: 'recipe ' })
+@ObjectType({ description: 'Reply ' })
 export class Reply_schema implements Reply {
   @Field()
   author_uuid: string;
@@ -16,7 +16,7 @@ export class Reply_schema implements Reply {
   reply: Reply[];
 }
 
-@ObjectType({ description: 'recipe ' })
+@ObjectType({ description: 'Comment ' })
 export class Comment_schema implements Comment {
   @Field()
   author_uuid: string;

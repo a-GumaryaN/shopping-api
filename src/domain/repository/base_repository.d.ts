@@ -8,7 +8,7 @@ interface base_repository<Model> {
     projection: Partial<Record<keyof Model, boolean>>,
     pagination:{ skip: number; take: number }
   ): Promise<Partial<Model>[]>;
-  add_new(new_object: Model): Promise<boolean>;
+  add_new(new_object: Partial<Model>): Promise<boolean>;
   delete_one(identifire: any): Promise<boolean>;
   update_one(identifire: any, new_object: Partial<Model>): Promise<boolean>;
 }

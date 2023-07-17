@@ -11,3 +11,10 @@ export class Add_product_args {
   @MaxLength(40)
   price: number;
 }
+
+@ArgsType()
+export class Get_product_by_category_args {
+  @Field({ nullable: false })
+  @MaxLength(30)
+  category: string;
+}

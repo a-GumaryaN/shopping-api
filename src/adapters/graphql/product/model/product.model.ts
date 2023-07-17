@@ -1,8 +1,8 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { Comment, Product } from 'src/domain/model';
-import { Comment_schema } from '../../comment/model/comment.schema';
+import { Field, ObjectType } from "@nestjs/graphql";
+import { Comment, Product } from "src/domain/model";
+import { Comment_schema } from "../../comment/model/comment.schema";
 
-@ObjectType({ description: 'product ' })
+@ObjectType({ description: "product " })
 export class Product_schema implements Product {
   @Field()
   uuid: string;
@@ -10,7 +10,7 @@ export class Product_schema implements Product {
   product_name: string;
   @Field()
   price: number;
-  @Field(()=>[String])
+  @Field(() => [String])
   images: string[];
   @Field(() => [Comment_schema])
   comments: Comment[];

@@ -4,12 +4,13 @@ import { login_schema } from 'src/domain/common/auth';
 import customer_repository from 'src/domain/repository/customer_repository';
 import { auth_validator } from 'src/domain/validators/auth';
 import code_repository from 'src/domain/repository/code_repository';
+import reset_password_by_phone_number_validator from 'src/domain/validators/Auth/reset_password_by_phone_number';
 
 class Reset_password_by_phone_number {
   constructor(
     private customer_repository: customer_repository,
     private code_repository: code_repository,
-    private validator: auth_validator,
+    private validator: reset_password_by_phone_number_validator,
     private Hash_service: hash_service,
     private Token_service: jwt_service,
   ) {}
@@ -30,7 +31,7 @@ class Reset_password_by_phone_number {
   ): Promise<login_schema> {
     const path = 'reset password by_phone number';
     //validate input data
-    const { error } = this.validator.reset_password_by_phone_number_validator({
+    const { error } = this.validator.validate({
       phone_number,
       code,
       new_password,

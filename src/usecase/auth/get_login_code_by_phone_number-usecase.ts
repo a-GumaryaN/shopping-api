@@ -4,12 +4,14 @@ import { send_validation_code } from 'src/domain/services/code.sender';
 import { auth_validator } from 'src/domain/validators/auth';
 import code_generator from 'src/domain/services/code_generator';
 import code_repository from 'src/domain/repository/code_repository';
+import phone_number_validator from 'src/domain/validators/Auth/phone_number';
+import Code from 'src/domain/model/Code';
 
 class Get_login_code_by_phone_number {
   constructor(
     private customer_repository: customer_repository,
     private code_repository: code_repository,
-    private validator: auth_validator,
+    private validator: phone_number_validator,
     private SMS_service: send_validation_code,
     private code_generator: code_generator,
   ) {}
@@ -23,7 +25,7 @@ class Get_login_code_by_phone_number {
   async action(phone_number: string): Promise<result> {
     const path = 'get login code_by phone number';
     //validate input data
-    const { error, value } = this.validator.phone_number_validator({
+    const { error, value } = this.validator.validate({
       phone_number,
     });
     if (error)
@@ -52,7 +54,7 @@ class Get_login_code_by_phone_number {
     //sms code to client
     await this.SMS_service.sender(user.phone_number, code);
     //save new code to database
-    const new_code: code = {
+    const new_code: Code = {
       code,
       target: 'password less login',
       phone_number,

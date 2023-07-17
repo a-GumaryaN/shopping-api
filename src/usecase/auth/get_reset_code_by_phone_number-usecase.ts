@@ -1,14 +1,15 @@
 import customer_repository from 'src/domain/repository/customer_repository';
 import { send_validation_code } from 'src/domain/services/code.sender';
-import { auth_validator } from 'src/domain/validators/auth';
 import code_generator from 'src/domain/services/code_generator';
 import code_repository from 'src/domain/repository/code_repository';
+import phone_number_validator from 'src/domain/validators/Auth/phone_number';
+import Code from 'src/domain/model/Code';
 
 class Get_reset_code_by_phone_number {
   constructor(
     private customer_repository: customer_repository,
     private code_repository: code_repository,
-    private validator: auth_validator,
+    private validator: phone_number_validator,
     private email_service: send_validation_code,
     private code_generator: code_generator,
   ) {}
@@ -22,7 +23,7 @@ class Get_reset_code_by_phone_number {
   async action(phone_number: string) {
     //validate phone_number
     const { error, value } =
-      this.validator.phone_number_validator(phone_number);
+      this.validator.validate(phone_number);
     if (error)
       return {
         result: null,
@@ -49,7 +50,7 @@ class Get_reset_code_by_phone_number {
     //generate new code
     const code: string = this.code_generator.generate();
     //save generated code to database
-    const new_code: code = {
+    const new_code: Code = {
       target: 'reset password',
       phone_number: value.phone_number,
       email: '',

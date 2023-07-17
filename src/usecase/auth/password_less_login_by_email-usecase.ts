@@ -3,12 +3,13 @@ import { login_schema } from 'src/domain/common/auth';
 import customer_repository from 'src/domain/repository/customer_repository';
 import { auth_validator } from 'src/domain/validators/auth';
 import code_repository from 'src/domain/repository/code_repository';
+import password_less_login_by_email_validator from 'src/domain/validators/Auth/password_less_login_by_email';
 
 class Password_less_login_by_email {
   constructor(
     private customer_repository: customer_repository,
     private code_repository: code_repository,
-    private validator: auth_validator,
+    private validator: password_less_login_by_email_validator,
     private Token_service: jwt_service,
   ) {}
 
@@ -22,7 +23,7 @@ class Password_less_login_by_email {
   async action(email: string, code: string): Promise<login_schema> {
     //validate input data
     const { error, value } =
-      this.validator.password_less_login_by_email_validator({
+      this.validator.validate({
         email,
         code,
       });
@@ -53,7 +54,7 @@ class Password_less_login_by_email {
       };
     //check validity of code
     const registered_code = await this.code_repository.find_one(
-      { email, target: 'password less' },
+      { email, target: 'password less login' },
       { code: true, target: true },
     );
     if (!registered_code)
