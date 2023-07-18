@@ -1,7 +1,7 @@
 import result from 'src/domain/common/result';
 import customer_repository from 'src/domain/repository/customer_repository';
 import { send_validation_code } from 'src/domain/services/code.sender';
-import { auth_validator } from 'src/domain/validators/auth';
+
 import code_generator from 'src/domain/services/code_generator';
 import code_repository from 'src/domain/repository/code_repository';
 import phone_number_validator from 'src/domain/validators/Auth/phone_number';

@@ -1,7 +1,7 @@
 import { jwt_service } from 'src/domain/services/jwt.interface';
 import { login_schema } from 'src/domain/common/auth';
 import customer_repository from 'src/domain/repository/customer_repository';
-import { auth_validator } from 'src/domain/validators/auth';
+
 import code_repository from 'src/domain/repository/code_repository';
 import password_less_login_by_email_validator from 'src/domain/validators/Auth/password_less_login_by_email';
 

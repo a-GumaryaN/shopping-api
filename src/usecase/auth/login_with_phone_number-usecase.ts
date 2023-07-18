@@ -2,7 +2,7 @@ import { hash_service } from 'src/domain/services/hash_service';
 import { jwt_service } from 'src/domain/services/jwt.interface';
 import { login_schema } from 'src/domain/common/auth';
 import customer_repository from 'src/domain/repository/customer_repository';
-import { auth_validator } from 'src/domain/validators/auth';
+
 import login_with_phone_number_validator from 'src/domain/validators/Auth/login_with_phone_number';
 
 class Login_by_phone_number {

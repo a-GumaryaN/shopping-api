@@ -1,11 +1,13 @@
 import result from "src/domain/common/result";
 import { Product } from "src/domain/model";
 import product_repository from "src/domain/repository/product.repository";
+import uuid_generator from "src/domain/services/uuid_generator";
 import add_product_validator from "src/domain/validators/Product/add_product";
 
 class Add_product {
   constructor(
     private Product_repository: product_repository,
+    private Uuid_generator: uuid_generator,
     private Add_product_validator: add_product_validator
   ) {}
   async action({
@@ -41,8 +43,10 @@ class Add_product {
           error_code: 123,
         },
       };
+    //generate new uuid
+    const uuid = this.Uuid_generator.generate();
     //save product object
-    await this.Product_repository.add_new({ product_name, price });
+    await this.Product_repository.add_new({ product_name, price, uuid });
     //return result
     return {
       result: "product generated successfully",

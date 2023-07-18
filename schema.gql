@@ -82,6 +82,7 @@ type Query {
   login_by_phone_number(phone_number: String!, password: String!): Login_schema!
   password_less_login_by_email(email: String!, code: String!): Result!
   password_less_login_by_phone_number(phone_number: String!, code: String!): Result!
+  get_products_by_uuid(product_uuid: String!): [Product_schema!]!
   get_products_by_category(category: String!): [Product_schema!]!
 }
 
@@ -89,8 +90,16 @@ type Mutation {
   reset_password_by_email(email: String!, code: String!, new_password: String!): Result!
   reset_password_by_phone_number(phone_number: String!, code: String!, new_password: String!): Result!
   get_login_code_by_phone_number(phone_number: String!): Result!
+  add_product(product_name: String!, price: Float!): [Product_schema!]!
+  delete_product(uuid: String!): [Product_schema!]!
+  update_product(uuid: String!, updated_product: Updated_product!): [Product_schema!]!
   get_register_code_by_email(email: String!): Result!
   get_register_code_by_phone_number(phone_number: String!): Result!
   register_by_email(email: String!, first_name: String!, last_name: String!, password: String!): Result!
   register_by_phone_number(phone_number: String!, first_name: String!, last_name: String!, password: String!): Result!
+}
+
+input Updated_product {
+  product_name: String!
+  price: Float!
 }
