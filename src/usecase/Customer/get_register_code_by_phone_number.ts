@@ -3,19 +3,19 @@ import Code from "src/domain/model/Code";
 import code_repository from "src/domain/repository/code_repository";
 import { send_validation_code } from "src/domain/services/code.sender";
 import code_generator from "src/domain/services/code_generator";
-import email_validator from "src/domain/validators/Auth/email_validator";
+import phone_number_validator from "src/domain/validators/Auth/phone_number";
 
-class Get_register_code_by_email_usecase {
+class Get_register_code_by_phone_number {
   constructor(
     private Code_repository: code_repository,
     private Code_generator: code_generator,
-    private Emailer_service: send_validation_code,
-    private Email_validator: email_validator
+    private SMS_service: send_validation_code,
+    private Phone_number_validator: phone_number_validator
   ) {}
-  async action({ email }: { email: string }): Promise<result> {
-    //validate input email
-    const { error: validation_error } = this.Email_validator.validate({
-      email,
+  async action({ phone_number }: { phone_number: string }): Promise<result> {
+    //validate input phone number
+    const { error: validation_error } = this.Phone_number_validator.validate({
+      phone_number,
     });
     if (validation_error)
       return {
@@ -23,31 +23,31 @@ class Get_register_code_by_email_usecase {
         error: {
           error_code: 123,
           message: validation_error,
-          path: "get register code by email",
+          path: "get register code by phone number",
         },
       };
     //generate new code
     const new_code = this.Code_generator.generate();
     //check existence of code
-    const registered_code = this.Code_repository.find_one({ email }, {});
+    const registered_code = this.Code_repository.find_one({ phone_number }, {});
     //if code registered then delete it for save new one
-    if (registered_code) this.Code_repository.delete_one({ email });
+    if (registered_code) this.Code_repository.delete_one({ phone_number });
     //save new code to repository
     const new_code_object: Code = {
       code: new_code,
-      email,
+      phone_number,
       target: "registration",
-      phone_number: "",
+      email: "",
     };
     await this.Code_repository.add_new(new_code_object);
-    //email generated code
-    await this.Emailer_service.sender(email, new_code);
+    //SMS generated code
+    await this.SMS_service.sender(phone_number, new_code);
     //return response
     return {
-      result: "code emailed successfully",
+      result: "code sended successfully",
       error: null,
     };
   }
 }
 
-export default Get_register_code_by_email_usecase;
+export default Get_register_code_by_phone_number;

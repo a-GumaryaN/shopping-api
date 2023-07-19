@@ -20,7 +20,6 @@ export class Update_product_args {
   uuid: string;
 
   @Field({ nullable: false })
-  @MaxLength(40)
   updated_product: Updated_product;
 }
 

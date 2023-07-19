@@ -95,11 +95,25 @@ type Mutation {
   update_product(uuid: String!, updated_product: Updated_product!): [Product_schema!]!
   get_register_code_by_email(email: String!): Result!
   get_register_code_by_phone_number(phone_number: String!): Result!
-  register_by_email(email: String!, first_name: String!, last_name: String!, password: String!): Result!
-  register_by_phone_number(phone_number: String!, first_name: String!, last_name: String!, password: String!): Result!
+  register_by_email(new_customer: new_customer_by_email!, code: String!): Result!
+  register_by_phone_number(new_customer: new_customer_by_phone_number!, code: String!): Result!
 }
 
 input Updated_product {
   product_name: String!
   price: Float!
+}
+
+input new_customer_by_email {
+  email: String!
+  first_name: String!
+  last_name: String!
+  password: String!
+}
+
+input new_customer_by_phone_number {
+  phone_number: String!
+  first_name: String!
+  last_name: String!
+  password: String!
 }

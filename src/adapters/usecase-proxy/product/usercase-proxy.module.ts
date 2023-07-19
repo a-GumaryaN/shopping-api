@@ -1,5 +1,6 @@
 import { DynamicModule, Module } from "@nestjs/common";
 import Product_repository from "src/adapters/repository/product.repository";
+import Uuid_generator_service from "src/adapters/services/uuid/uuid_sender.service";
 import {
   Add_product_validator,
   Delete_product_validator,
@@ -26,7 +27,7 @@ class Usecase_proxy_module {
       module: Usecase_proxy_module,
       providers: [
         {
-          inject: [Product_repository],
+          inject: [],
           provide: Usecase_proxy_module.Get_product,
           useFactory: () => {
             const product_repository = new Product_repository();
@@ -35,7 +36,7 @@ class Usecase_proxy_module {
           },
         },
         {
-          inject: [Product_repository],
+          inject: [],
           provide: Usecase_proxy_module.Get_product_by_category,
           useFactory: () => {
             const product_repository = new Product_repository();
@@ -44,17 +45,22 @@ class Usecase_proxy_module {
           },
         },
         {
-          inject: [Product_repository],
+          inject: [],
           provide: Usecase_proxy_module.Add_product,
           useFactory: () => {
             const product_repository = new Product_repository(),
+              uuid_service = new Uuid_generator_service(),
               validator = new Add_product_validator();
 
-            return new Add_product_usecase(product_repository, validator);
+            return new Add_product_usecase(
+              product_repository,
+              uuid_service,
+              validator
+            );
           },
         },
         {
-          inject: [Product_repository],
+          inject: [],
           provide: Usecase_proxy_module.Delete_product,
           useFactory: () => {
             const product_repository = new Product_repository(),
@@ -64,7 +70,7 @@ class Usecase_proxy_module {
           },
         },
         {
-          inject: [Product_repository],
+          inject: [],
           provide: Usecase_proxy_module.Update_product,
           useFactory: () => {
             const product_repository = new Product_repository(),

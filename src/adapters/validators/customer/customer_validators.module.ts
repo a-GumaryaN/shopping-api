@@ -1,12 +1,12 @@
 import { Module } from "@nestjs/common";
-import Update_product_validator from "./update_product.service";
-import Delete_product_validator from "./delete_product.service";
-import Add_product_validator from "./add_product.service";
+import Register_by_email_validator from "./register_by_email_validator.service";
 
 @Module({
   providers: [
+    Register_by_email_validator
   ],
   exports: [
+    Register_by_email_validator
   ],
 })
-class Auth_validator {}
+export class Auth_validator {}

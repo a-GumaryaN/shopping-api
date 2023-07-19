@@ -1,11 +1,17 @@
 import register_by_email_validator from "src/domain/validators/Customer/register_by_email_validator";
-import delete_product_validator from "src/domain/validators/Product/delete_product";
 
 const Validator = require("fastest-validator");
 const v = new Validator();
 
 const schema = {
-  uuid: { type: "string", max: 80 },
+  code: { type: "string", max: 80 },
+  new_customer: {
+    $$type: "object",
+    email: { type: "email", max: 255 },
+    first_name: { type: "string", max: 40 },
+    last_name: { type: "string", max: 40 },
+    password: { type: "string", max: 50 },
+  },
 };
 
 class Register_by_email_validator implements register_by_email_validator {
@@ -14,8 +20,8 @@ class Register_by_email_validator implements register_by_email_validator {
     this.checker = v.compile(schema);
   }
 
-  validate({ uuid }) {
-    const error = this.checker({ uuid });
+  validate({ code, new_customer }) {
+    const error = this.checker({ code, new_customer });
 
     const result =
       error !== true
@@ -25,7 +31,7 @@ class Register_by_email_validator implements register_by_email_validator {
           }
         : {
             error: null,
-            value: { uuid },
+            value: { code, new_customer },
           };
     return result;
   }
