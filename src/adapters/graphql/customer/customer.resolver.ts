@@ -5,14 +5,17 @@ import {
   Get_register_code_by_phone_number_args,
   Register_by_email_args,
   Register_by_phone_number_args,
+  Update_customer_args,
 } from "./dto/customer.args";
 import { Result } from "../common/model/result";
-import { Inject } from "@nestjs/common";
+import { Inject, UseGuards } from "@nestjs/common";
 import Usecase_proxy_module from "src/adapters/usecase-proxy/customer/customer_usecase_proxy.module";
 import Get_register_code_by_email from "src/usecase/Customer/get_register_code_by_email";
 import Get_register_code_by_phone_number from "src/usecase/Customer/get_register_code_by_phone_number";
 import Register_by_email from "src/usecase/Customer/register_by_email";
 import Register_by_phone_number from "src/usecase/Customer/register_by_phone_number";
+import { Customer } from "src/domain/model";
+import Graphql_auth_guard from "src/adapters/common/guard/jwt/jwt.graphql.guard";
 
 @Resolver((of) => Customer_schema)
 class Customer_resolver {
@@ -85,6 +88,36 @@ class Customer_resolver {
     @Args() { code, new_customer }: Register_by_phone_number_args
   ): Promise<Result> {
     return await this.Register_by_phone_number.action({ code, new_customer });
+  }
+
+  /**
+   * //update customer
+   * @param updated_customer
+   * @returns result object
+   */
+  @Mutation(() => Result)
+  @UseGuards(Graphql_auth_guard)
+  async update_customer(
+    @Args() { updated_customer }: Update_customer_args
+  ): Promise<Result> {
+    return {
+      result: null,
+      error: null,
+    };
+  }
+
+  /**
+   * //return customer
+   * @param updated_customer
+   * @returns result object
+   */
+  @Query(() => Customer_schema)
+  @UseGuards(Graphql_auth_guard)
+  async customer(): Promise<Partial<Customer>> {
+    return {
+      first_name:"john",
+      last_name:"doe",
+    };
   }
 }
 

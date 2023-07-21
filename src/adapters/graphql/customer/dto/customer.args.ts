@@ -2,6 +2,7 @@ import { Field, InputType, ArgsType } from "@nestjs/graphql";
 import { MaxLength } from "class-validator";
 import Customer from "src/domain/model/Customer";
 import {
+  Updated_customer,
   new_customer_by_email,
   new_customer_by_phone_number,
 } from "./customer.dto";
@@ -61,4 +62,22 @@ export class Register_by_phone_number_args
   new_customer: new_customer_by_phone_number;
   @Field({ nullable: false })
   code: string;
+}
+
+type Update_customer_type = {
+  updated_customer: Pick<
+    Customer,
+    | "address"
+    | "email"
+    | "phone_number"
+    | "first_name"
+    | "last_name"
+    | "password"
+  >;
+};
+
+@ArgsType()
+export class Update_customer_args implements Update_customer_type {
+  @Field({ nullable: false })
+  updated_customer: Updated_customer;
 }

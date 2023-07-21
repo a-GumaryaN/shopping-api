@@ -46,14 +46,14 @@ type Order_schema {
 
 """customer """
 type Customer_schema {
-  first_name: String!
-  last_name: String!
-  email: String!
-  phone_number: String!
-  password: String!
-  address: String!
-  profile_image: String!
-  uuid: String!
+  first_name: String
+  last_name: String
+  email: String
+  phone_number: String
+  password: String
+  address: String
+  profile_image: String
+  uuid: String
   orders: [Order_schema!]!
 }
 
@@ -84,6 +84,7 @@ type Query {
   password_less_login_by_phone_number(phone_number: String!, code: String!): Result!
   get_products_by_uuid(product_uuid: String!): [Product_schema!]!
   get_products_by_category(category: String!): [Product_schema!]!
+  customer: Customer_schema!
 }
 
 type Mutation {
@@ -97,6 +98,7 @@ type Mutation {
   get_register_code_by_phone_number(phone_number: String!): Result!
   register_by_email(new_customer: new_customer_by_email!, code: String!): Result!
   register_by_phone_number(new_customer: new_customer_by_phone_number!, code: String!): Result!
+  update_customer(updated_customer: Updated_customer!): Result!
 }
 
 input Updated_product {
@@ -116,4 +118,13 @@ input new_customer_by_phone_number {
   first_name: String!
   last_name: String!
   password: String!
+}
+
+input Updated_customer {
+  address: String
+  email: String
+  phone_number: String
+  first_name: String
+  last_name: String
+  password: String
 }

@@ -4,22 +4,22 @@ import { Order } from 'src/domain/model';
 import { Order_schema } from '../../order/model/order.model';
 
 @ObjectType({ description: 'customer ' })
-export class Customer_schema implements Customer {
-  @Field()
+export class Customer_schema implements Partial<Customer> {
+  @Field({nullable:true})
   first_name: string;
-  @Field()
+    @Field({nullable:true})
   last_name: string;
-  @Field()
+    @Field({nullable:true})
   email: string;
-  @Field()
+    @Field({nullable:true})
   phone_number: string;
-  @Field()
+    @Field({nullable:true})
   password: string;
-  @Field()
+    @Field({nullable:true})
   address: string;
-  @Field()
+    @Field({nullable:true})
   profile_image: string;
-  @Field()
+    @Field({nullable:true})
   uuid: string;
   @Field(() => [Order_schema])
   orders: Order[];
