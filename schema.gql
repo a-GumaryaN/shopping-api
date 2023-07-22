@@ -1,0 +1,130 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+"""Reply """
+type Reply_schema {
+  author_uuid: String!
+  rate: Float!
+  comment: String!
+  reply: [Reply_schema!]!
+}
+
+"""Comment """
+type Comment_schema {
+  author_uuid: String!
+  rate: Float!
+  comment: String!
+  reply: [Reply_schema!]!
+}
+
+"""product """
+type Product_schema {
+  uuid: String!
+  product_name: String!
+  price: Float!
+  images: [String!]!
+  comments: [Comment_schema!]!
+  rate: Float!
+}
+
+"""order """
+type Order_product_schema {
+  product_id: String!
+  number: Float!
+}
+
+"""recipe """
+type Order_schema {
+  order_products: [Order_product_schema!]!
+  description: String!
+  total_amount: Float!
+  order_uuid: String!
+}
+
+"""customer """
+type Customer_schema {
+  first_name: String
+  last_name: String
+  email: String
+  phone_number: String
+  password: String
+  address: String
+  profile_image: String
+  uuid: String
+  orders: [Order_schema!]!
+}
+
+"""recipe """
+type Error {
+  error_code: Float!
+  message: String!
+  path: String!
+}
+
+"""result """
+type Result {
+  result: String
+  error: Error
+}
+
+"""recipe """
+type Login_schema {
+  token: String
+  error: Error
+  user: Customer_schema
+}
+
+type Query {
+  login_by_email(email: String!, password: String!): Login_schema!
+  login_by_phone_number(phone_number: String!, password: String!): Login_schema!
+  password_less_login_by_email(email: String!, code: String!): Result!
+  password_less_login_by_phone_number(phone_number: String!, code: String!): Result!
+  get_products_by_uuid(product_uuid: String!): [Product_schema!]!
+  get_products_by_category(category: String!): [Product_schema!]!
+  customer: Customer_schema!
+}
+
+type Mutation {
+  reset_password_by_email(email: String!, code: String!, new_password: String!): Result!
+  reset_password_by_phone_number(phone_number: String!, code: String!, new_password: String!): Result!
+  get_login_code_by_phone_number(phone_number: String!): Result!
+  add_product(product_name: String!, price: Float!): [Product_schema!]!
+  delete_product(uuid: String!): [Product_schema!]!
+  update_product(uuid: String!, updated_product: Updated_product!): [Product_schema!]!
+  get_register_code_by_email(email: String!): Result!
+  get_register_code_by_phone_number(phone_number: String!): Result!
+  register_by_email(new_customer: new_customer_by_email!, code: String!): Result!
+  register_by_phone_number(new_customer: new_customer_by_phone_number!, code: String!): Result!
+  update_customer(updated_customer: Updated_customer!): Result!
+}
+
+input Updated_product {
+  product_name: String!
+  price: Float!
+}
+
+input new_customer_by_email {
+  email: String!
+  first_name: String!
+  last_name: String!
+  password: String!
+}
+
+input new_customer_by_phone_number {
+  phone_number: String!
+  first_name: String!
+  last_name: String!
+  password: String!
+}
+
+input Updated_customer {
+  address: String
+  email: String
+  phone_number: String
+  first_name: String
+  last_name: String
+  password: String
+}
