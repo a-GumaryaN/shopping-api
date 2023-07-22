@@ -2,6 +2,7 @@ import { __Schema } from 'graphql';
 import { Customer } from 'src/domain/model';
 import customer_repository from 'src/domain/repository/customer_repository';
 import { PrismaClient} from '@prisma/client';
+import { Injectable } from '@nestjs/common';
 
 
 const prisma_client = new PrismaClient();
@@ -22,6 +23,8 @@ const pagination_null_object: Record<customer_parameters, boolean> = {
   uuid: false,
 };
 
+
+@Injectable()
 class Customer_repository implements customer_repository {
   async add_new(new_object: Customer) {
     await customer_model.create({ data: new_object});

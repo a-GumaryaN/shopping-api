@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import reset_password_by_phone_number_validator from "src/domain/validators/Auth/reset_password_by_phone_number";
 const Validator = require("fastest-validator");
 const v = new Validator();
@@ -7,6 +8,8 @@ const schema = {
   code: { type: "string", max: 40 },
 };
 
+
+@Injectable()
 class password_less_by_phone_number
   implements reset_password_by_phone_number_validator
 {

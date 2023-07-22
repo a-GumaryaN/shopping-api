@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import { PrismaClient } from "@prisma/client";
 import Code from "src/domain/model/Code";
 import code_repository from "src/domain/repository/code_repository";
@@ -15,6 +16,7 @@ const pagination_null_object: Record<Code_parameters, boolean> = {
   target: false,
 };
 
+@Injectable()
 class Code_repository implements code_repository {
   async add_new(new_object: Code) {
     await Code_model.create({ data: new_object });

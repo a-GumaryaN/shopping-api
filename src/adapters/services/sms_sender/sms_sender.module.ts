@@ -5,4 +5,6 @@ import { Sms_sender_service } from './sms_sender.service';
   providers: [Sms_sender_service],
   exports: [Sms_sender_service],
 })
-export class SmsSenderModule {}
+class Sms_sender_module {}
+
+export default Sms_sender_module;

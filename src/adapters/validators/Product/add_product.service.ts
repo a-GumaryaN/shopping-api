@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import add_product_validator from "src/domain/validators/Product/add_product";
 
 const Validator = require("fastest-validator");
@@ -8,6 +9,7 @@ const schema = {
   price: { type: "number" },
 };
 
+@Injectable()
 class Add_product_validator implements add_product_validator {
   private checker;
   constructor() {

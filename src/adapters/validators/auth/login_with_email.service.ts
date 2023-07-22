@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import login_with_email_validator from "src/domain/validators/Auth/login_with_email";
 import password_less_by_phone_number_validator from "src/domain/validators/Auth/password_less_by_phone_number";
 import reset_password_by_phone_number from "src/domain/validators/Auth/reset_password_by_phone_number";
@@ -9,6 +10,7 @@ const schema = {
   code: { type: "string", max: 40 },
 };
 
+@Injectable()
 class Login_with_email_validator
   implements login_with_email_validator
 {

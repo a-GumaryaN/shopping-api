@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import { PrismaClient } from "@prisma/client";
 import { Product } from "src/domain/model";
 import product_repository from "src/domain/repository/product.repository";
@@ -17,6 +18,8 @@ const pagination_null_object: Record<Product_parameters, boolean> = {
   rate: false,
 };
 
+
+@Injectable()
 class Product_repository implements product_repository {
   async add_new(new_object: Product) {
     await Product_model.create({ data: new_object });

@@ -15,4 +15,7 @@ import Add_product_validator from "./add_product.service";
     Add_product_validator,
   ],
 })
-class Auth_validator {}
+class Product_validator_module {}
+
+
+export default Product_validator_module;

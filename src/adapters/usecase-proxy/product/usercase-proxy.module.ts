@@ -1,11 +1,14 @@
 import { DynamicModule, Module } from "@nestjs/common";
 import Product_repository from "src/adapters/repository/product.repository";
+import Repositories_module from "src/adapters/repository/repositories.module";
+import Uuid_service_module from "src/adapters/services/uuid/uuid_sender.module";
 import Uuid_generator_service from "src/adapters/services/uuid/uuid_sender.service";
 import {
   Add_product_validator,
   Delete_product_validator,
   Update_product_validator,
 } from "src/adapters/validators/Product";
+import Auth_validator_module from "src/adapters/validators/Product/product.module";
 import {
   Add_product_usecase,
   Delete_product_usecase,
@@ -13,8 +16,9 @@ import {
   Get_product_by_category_usecase,
   Update_product_usecase,
 } from "src/usecase/Product";
+
 @Module({
-  imports: [],
+  imports: [Repositories_module, Uuid_service_module, Auth_validator_module],
 })
 class Usecase_proxy_module {
   static Get_product = "Get_product";
@@ -27,57 +31,50 @@ class Usecase_proxy_module {
       module: Usecase_proxy_module,
       providers: [
         {
-          inject: [],
+          inject: [Product_repository],
           provide: Usecase_proxy_module.Get_product,
-          useFactory: () => {
-            const product_repository = new Product_repository();
-
-            return new Get_product_usecase(product_repository);
-          },
+          useFactory: (repository: Product_repository) =>
+            new Get_product_usecase(repository),
         },
         {
-          inject: [],
+          inject: [Product_repository],
           provide: Usecase_proxy_module.Get_product_by_category,
-          useFactory: () => {
-            const product_repository = new Product_repository();
-
-            return new Get_product_by_category_usecase(product_repository);
-          },
+          useFactory: (repository: Product_repository) =>
+            new Get_product_by_category_usecase(repository),
         },
         {
-          inject: [],
+          inject: [
+            Product_repository,
+            Uuid_generator_service,
+            Add_product_validator,
+          ],
           provide: Usecase_proxy_module.Add_product,
-          useFactory: () => {
-            const product_repository = new Product_repository(),
-              uuid_service = new Uuid_generator_service(),
-              validator = new Add_product_validator();
-
-            return new Add_product_usecase(
-              product_repository,
-              uuid_service,
+          useFactory: (
+            repository: Product_repository,
+            Uuid_generator_service: Uuid_generator_service,
+            validator: Add_product_validator
+          ) =>
+            new Add_product_usecase(
+              repository,
+              Uuid_generator_service,
               validator
-            );
-          },
+            ),
         },
         {
-          inject: [],
+          inject: [Product_repository, Delete_product_validator],
           provide: Usecase_proxy_module.Delete_product,
-          useFactory: () => {
-            const product_repository = new Product_repository(),
-              validator = new Delete_product_validator();
-
-            return new Delete_product_usecase(product_repository, validator);
-          },
+          useFactory: (
+            repository: Product_repository,
+            validator: Delete_product_validator
+          ) => new Delete_product_usecase(repository, validator),
         },
         {
-          inject: [],
+          inject: [Product_repository, Update_product_validator],
           provide: Usecase_proxy_module.Update_product,
-          useFactory: () => {
-            const product_repository = new Product_repository(),
-              validator = new Update_product_validator();
-
-            return new Update_product_usecase(product_repository, validator);
-          },
+          useFactory: (
+            repository: Product_repository,
+            validator: Update_product_validator
+          ) => new Update_product_usecase(repository, validator),
         },
       ],
       exports: [

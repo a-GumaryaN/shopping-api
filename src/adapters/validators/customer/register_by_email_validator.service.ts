@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import register_by_email_validator from "src/domain/validators/Customer/register_by_email_validator";
 
 const Validator = require("fastest-validator");
@@ -14,6 +15,7 @@ const schema = {
   },
 };
 
+@Injectable()
 class Register_by_email_validator implements register_by_email_validator {
   private checker;
   constructor() {

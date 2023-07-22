@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import login_with_phone_number_validator from "src/domain/validators/Auth/login_with_phone_number";
 const Validator = require("fastest-validator");
 const v = new Validator();
@@ -7,6 +8,7 @@ const schema = {
   password: { type: "string", max: 40 },
 };
 
+@Injectable()
 class Login_with_phone_number_validator
   implements login_with_phone_number_validator
 {

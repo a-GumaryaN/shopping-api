@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import reset_password_by_email_validator from "src/domain/validators/Auth/reset_password_by_email";
 const Validator = require("fastest-validator");
 const v = new Validator();
@@ -8,6 +9,7 @@ const schema = {
   new_password: { type: "string", max: 40 },
 };
 
+@Injectable()
 class Reset_password_by_email_validator implements reset_password_by_email_validator {
   private checker;
   constructor() {

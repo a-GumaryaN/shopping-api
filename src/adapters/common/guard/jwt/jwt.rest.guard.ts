@@ -32,5 +32,4 @@ class Rest_auth_guard implements CanActivate {
   }
 }
 
-
 export default Rest_auth_guard;

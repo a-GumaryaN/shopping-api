@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import register_by_phone_number_validator from "src/domain/validators/Customer/register_by_phone_number_validator";
 
 const Validator = require("fastest-validator");
@@ -15,7 +16,10 @@ const schema = {
   },
 };
 
-class Register_by_email_validator implements register_by_phone_number_validator {
+@Injectable()
+class Register_by_phone_number_validator
+  implements register_by_phone_number_validator
+{
   private checker;
   constructor() {
     this.checker = v.compile(schema);
@@ -38,4 +42,4 @@ class Register_by_email_validator implements register_by_phone_number_validator 
   }
 }
 
-export default Register_by_email_validator;
+export default Register_by_phone_number_validator;

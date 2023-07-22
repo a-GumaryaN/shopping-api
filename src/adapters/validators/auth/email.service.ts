@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import email_validator from "src/domain/validators/Auth/email_validator";
 const Validator = require("fastest-validator");
 const v = new Validator();
@@ -6,6 +7,7 @@ const schema = {
   email: { type: "email", max: 255 },
 };
 
+@Injectable()
 class Email_validator implements email_validator {
   private checker;
   constructor() {

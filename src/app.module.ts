@@ -6,18 +6,17 @@ import Product_module from "./adapters/graphql/product/product.module";
 import Order_module from "./adapters/graphql/order/order.module";
 import Customer_module from "./adapters/graphql/customer/customer.module";
 import { Auth_module } from "./adapters/graphql/auth/auth.module";
-import { SmsSenderModule } from "./adapters/services/sms_sender/sms_sender.module";
 import { EmailSenderModule } from "./adapters/services/email_sender/email_sender.module";
-import { CodeGeneratorModule } from "./adapters/services/code_generator/code_generator.module";
-import { FileUploadModule } from "./adapters/controllers/file_upload/file_upload.module";
+import Product_file_upload_module from './adapters/controllers/product_file_upload/product_file_upload.module';
+import File_upload_module from "./adapters/controllers/customer_file_upload/product_file_upload.module";
 
 @Module({
   imports: [
-    FileUploadModule,
+    File_upload_module,
+    Product_file_upload_module,
     Auth_module,
     Product_module,
     Order_module,
-    Customer_module,
     Customer_module,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -33,9 +32,7 @@ import { FileUploadModule } from "./adapters/controllers/file_upload/file_upload
         ],
       },
     }),
-    SmsSenderModule,
     EmailSenderModule,
-    CodeGeneratorModule,
   ],
 })
 export class AppModule {}
