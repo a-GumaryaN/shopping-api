@@ -11,7 +11,7 @@ export class Jwt_token_service implements jwt_service {
   }
 
   generate_token(payload: jwt_payload, expiresIn: string): string {
-    const secret = process.env.SECRET;
+    const secret = process.env.JWT_SECRET;
     return this.jwtService.sign(payload, {
       secret,
       expiresIn: expiresIn,

@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { Product_schema } from "./model/product.model";
-import { Inject } from "@nestjs/common";
+import { Inject, UseGuards } from "@nestjs/common";
 import Usecase_proxy_module from "src/adapters/usecase-proxy/product/usercase-proxy.module";
 import {
   Add_product_args,
@@ -18,6 +18,8 @@ import {
   Update_product_usecase,
 } from "src/usecase/Product";
 import { Result } from "../common/model/result";
+import { GraphqlRolesGuard } from "src/adapters/common/guards/role.graphql.guard";
+import { Roles } from "src/adapters/common/decorators/roles.decorator";
 
 @Resolver(() => Product_schema)
 class Product_resolver {
@@ -65,6 +67,8 @@ class Product_resolver {
    * @returns result
    */
   @Mutation(() => [Product_schema])
+  @Roles("admin") //set admin metadata for role guard
+  @UseGuards(GraphqlRolesGuard) //check validity of user role and set metadata role
   async add_product(
     @Args() { price, product_name }: Add_product_args
   ): Promise<Result> {
@@ -77,6 +81,8 @@ class Product_resolver {
    * @returns result
    */
   @Mutation(() => [Product_schema])
+  @Roles("admin") //set admin metadata for role guard
+  @UseGuards(GraphqlRolesGuard) //check validity of user role and set metadata role
   async delete_product(@Args() { uuid }: Delete_product_args): Promise<Result> {
     return await this.Delete_product.action({ uuid });
   }
@@ -87,6 +93,8 @@ class Product_resolver {
    * @returns result
    */
   @Mutation(() => [Product_schema])
+  @Roles("admin") //set admin metadata for role guard
+  @UseGuards(GraphqlRolesGuard) //check validity of user role and set metadata role
   async update_product(
     @Args() { uuid, updated_product }: Update_product_args
   ): Promise<Result> {

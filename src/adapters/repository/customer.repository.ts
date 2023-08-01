@@ -1,34 +1,22 @@
-import { __Schema } from 'graphql';
 import { Customer } from 'src/domain/model';
 import customer_repository from 'src/domain/repository/customer_repository';
-import { PrismaClient} from '@prisma/client';
 import { Injectable } from '@nestjs/common';
-
-
-const prisma_client = new PrismaClient();
-const customer_model = prisma_client['customer'];
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { customer } from '../entities/customer.entity';
 
 type customer_parameters = keyof Customer;
 type selectable_model_value = Partial<Record<customer_parameters, boolean>>;
 
-const pagination_null_object: Record<customer_parameters, boolean> = {
-  first_name: false,
-  last_name: false,
-  address: false,
-  password: false,
-  phone_number: false,
-  email: false,
-  orders: false,
-  profile_image: false,
-  uuid: false,
-};
-
-
 @Injectable()
 class Customer_repository implements customer_repository {
+  constructor(
+    @InjectModel(customer.name)
+    private readonly Customer_model: Model<customer>
+  ) {}
+
   async add_new(new_object: Customer) {
-    await customer_model.create({ data: new_object});
-    await prisma_client.$disconnect();
+    await this.Customer_model.create(new_object);
     return true;
   }
 
@@ -41,51 +29,32 @@ class Customer_repository implements customer_repository {
     projection: selectable_model_value;
     pagination: { skip: number; take: number };
   }): Promise<Partial<Customer>[]> {
-    const object = await customer_model.findMany({
-      where: identifire,
-      select: { ...pagination_null_object, ...projection },
-      ...pagination,
-    });
-    await prisma_client.$disconnect();
-    return object;
+    return await this.Customer_model.find(identifire, projection);
   }
 
   async find_one(
     identifire: Partial<Customer>,
-    projection: selectable_model_value,
+    projection: selectable_model_value
   ): Promise<Partial<Customer>> {
-    const object = await customer_model.findFirst({
-      where: identifire,
-      select: { ...pagination_null_object, ...projection },
-    });
-    await prisma_client.$disconnect();
-    return object;
+    return await this.Customer_model.findOne(identifire, projection);
   }
 
-  async delete_one(new_object: Customer) {
-    await customer_model.create({ data: new_object });
-    await prisma_client.$disconnect();
+  async delete_one(identifire: Partial<Customer>) {
+    await this.Customer_model.deleteOne(identifire);
     return true;
   }
 
-  async update_one(
-    identifire: Partial<Customer>,
-    new_object: Partial<Customer>,
-  ) {
-    // await customer_model.update({ where: {}, data: new_object });
-    await prisma_client.$disconnect();
+  async update_one(identifire: Partial<Customer>, new_object: Partial<Customer>) {
+    await this.Customer_model.updateOne(identifire, new_object);
     return true;
   }
+
 
   async find_by_uuid(
     uuid: string,
-    projection?: any,
-  ): Promise<Partial<Customer>> {
-    const object = await customer_model.findFirst({
-      where: { uuid },
-      include: { _id: false, ...projection },
-    });
-    return object;
+    projection?: any
+  ): Promise<Partial<Customer>>{
+    return {}
   }
 }
 

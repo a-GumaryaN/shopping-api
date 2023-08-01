@@ -15,8 +15,7 @@ import Get_register_code_by_phone_number from "src/usecase/Customer/get_register
 import Register_by_email from "src/usecase/Customer/register_by_email";
 import Register_by_phone_number from "src/usecase/Customer/register_by_phone_number";
 import { Customer } from "src/domain/model";
-import Graphql_auth_guard from "src/adapters/common/guard/jwt/jwt.graphql.guard";
-import Jwt_auth_guard from "src/adapters/common/guard/jwt_local.guard";
+import Graphql_auth_guard from "src/adapters/common/guards/jwt.graphql.guard";
 
 @Resolver((of) => Customer_schema)
 class Customer_resolver {
@@ -97,7 +96,7 @@ class Customer_resolver {
    * @returns result object
    */
   @Mutation(() => Result)
-  @UseGuards(Jwt_auth_guard)
+  @UseGuards(Graphql_auth_guard)
   async update_customer(
     @Args() { updated_customer }: Update_customer_args
   ): Promise<Result> {

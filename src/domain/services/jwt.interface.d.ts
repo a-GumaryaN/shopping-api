@@ -3,7 +3,9 @@ export interface jwt_service {
   generate_token(payload: jwt_payload, expiresIn: string): string;
 }
 
+export type roles ='customer' | 'admin';
+
 export interface jwt_payload {
   uuid: string;
-  role: 'customer' | 'admin';
+  role: roles;
 }

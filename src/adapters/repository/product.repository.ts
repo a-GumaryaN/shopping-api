@@ -1,29 +1,22 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaClient } from "@prisma/client";
+import { InjectModel } from "@nestjs/mongoose";
 import { Product } from "src/domain/model";
+import { product } from "../entities/product.entity";
+import { Model } from "mongoose";
 import product_repository from "src/domain/repository/product.repository";
-
-const prisma_client = new PrismaClient();
-const Product_model = prisma_client["Product"];
 
 type Product_parameters = keyof Product;
 type selectable_model_value = Partial<Record<Product_parameters, boolean>>;
 
-const pagination_null_object: Record<Product_parameters, boolean> = {
-  uuid: false,
-  product_name: false,
-  price: false,
-  images: false,
-  comments: false,
-  rate: false,
-};
-
-
 @Injectable()
 class Product_repository implements product_repository {
+  constructor(
+    @InjectModel(product.name)
+    private readonly Product_model: Model<product>
+  ) {}
+
   async add_new(new_object: Product) {
-    await Product_model.create({ data: new_object });
-    await prisma_client.$disconnect();
+    await this.Product_model.create(new_object);
     return true;
   }
 
@@ -36,57 +29,38 @@ class Product_repository implements product_repository {
     projection: selectable_model_value;
     pagination: { skip: number; take: number };
   }): Promise<Partial<Product>[]> {
-    const object = await Product_model.findMany({
-      where: identifire,
-      select: { ...pagination_null_object, ...projection },
-      ...pagination,
-    });
-    await prisma_client.$disconnect();
-    return object;
+    return await this.Product_model.find(identifire, projection);
   }
 
   async find_one(
     identifire: Partial<Product>,
     projection: selectable_model_value
   ): Promise<Partial<Product>> {
-    const object = await Product_model.findFirst({
-      where: identifire,
-      select: { ...pagination_null_object, ...projection },
-    });
-    await prisma_client.$disconnect();
-    return object;
+    return await this.Product_model.findOne(identifire, projection);
   }
 
-  async delete_one(new_object: Product) {
-    await Product_model.create({ data: new_object });
-    await prisma_client.$disconnect();
+  async delete_one(identifire: Partial<Product>) {
+    await this.Product_model.deleteOne(identifire);
     return true;
   }
 
   async update_one(identifire: Partial<Product>, new_object: Partial<Product>) {
-    await Product_model.update({ where: {}, data: new_object });
-    await prisma_client.$disconnect();
+    await this.Product_model.updateOne(identifire, new_object);
     return true;
   }
 
   async find_by_uuid(
     uuid: string,
-    projection?: selectable_model_value
+    projection?: any
   ): Promise<Partial<Product>> {
-    return await Product_model.findFirst({
-      where: { uuid },
-      include: { _id: false, ...projection },
-    });
+    return {};
   }
 
   async find_by_category(
     category: string,
-    projection?: selectable_model_value
+    projection?: any
   ): Promise<[Partial<Product>]> {
-    return await Product_model.findMany({
-      where: { category },
-      include: { _id: false, ...projection },
-    });
+    return [{}];
   }
 }
 

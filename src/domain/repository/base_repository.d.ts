@@ -1,7 +1,7 @@
 interface base_repository<Model> {
   find_one(
     identifire: Partial<Model>,
-    projection: Partial<Record<keyof Model, boolean>>,
+    projection: any,
   ): Promise<Partial<Model>>;
   find_many(
     identifire: any,
