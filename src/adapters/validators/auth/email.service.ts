@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import email_validator from "src/domain/validators/Auth/email_validator";
+import phone_number_validator from "src/domain/validators/Auth/phone_number";
 const Validator = require("fastest-validator");
 const v = new Validator();
 
@@ -8,7 +8,7 @@ const schema = {
 };
 
 @Injectable()
-class Email_validator implements email_validator {
+class Email_validator implements phone_number_validator {
   private checker;
   constructor() {
     this.checker = v.compile(schema);
@@ -16,7 +16,6 @@ class Email_validator implements email_validator {
 
   validate({ email }) {
     const error = this.checker({ email });
-
     const result =
       error !== true
         ? {

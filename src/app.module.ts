@@ -10,14 +10,20 @@ import { EmailSenderModule } from "./adapters/services/email_sender/email_sender
 import { File_module } from "./adapters/controllers/file/file.module";
 import File_upload_module from "./adapters/controllers/file_upload/file_upload.module";
 import { MongooseModule } from "@nestjs/mongoose";
+import { SeedersModule } from "./adapters/seeders/seeders.module";
+import { CommandModule } from "nestjs-command";
+import { ConfigModule } from "@nestjs/config";
 
 const database_ulr = "mongodb://127.0.0.1:27017/shopping_api";
 
-console.log(database_ulr);
-
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     MongooseModule.forRoot(database_ulr),
+    CommandModule,
+    SeedersModule,
     File_module,
     File_upload_module,
     Auth_module,

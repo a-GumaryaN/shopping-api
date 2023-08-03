@@ -4,10 +4,10 @@ import { send_validation_code } from "src/domain/services/code.sender";
 
 import code_generator from "src/domain/services/code_generator";
 import code_repository from "src/domain/repository/code_repository";
-import email_validator from "src/domain/validators/Auth/email_validator";
 import Code from "src/domain/model/Code";
+import email_validator from "src/domain/validators/Auth/email_validator";
 
-class Get_reset_code_by_email {
+class Get_login_code_by_email {
   constructor(
     private customer_repository: customer_repository,
     private code_repository: code_repository,
@@ -17,40 +17,42 @@ class Get_reset_code_by_email {
   ) {}
 
   /**
-   * send code to user email for resetting password
+   * sms code to user with phone number for password-less login
    * @param email
    * @returns result
    * @returns error object
    */
   async action(email: string): Promise<result> {
-    const path = "get reset code by email";
-    //validate email
-    const { error, value } = this.validator.validate({ email });
+    const path = "get login code_by phone number";
+    //validate input data
+    const { error, value } = this.validator.validate({
+      email,
+    });
     if (error)
       return {
-        result: null,
         error: {
           error_code: 123,
           message: error,
           path,
         },
       };
-    //check existing email
+    //check existence of user
     const user = await this.customer_repository.find_one(
       { email: value.email },
       { email: true }
     );
     if (!user)
       return {
-        result: null,
         error: {
           error_code: 123,
-          message: "user not found",
-          path: "get reset code by email",
+          message: "User not found",
+          path,
         },
       };
-    //generate new code
-    const code: string = this.code_generator.generate();
+    // generate new  code
+    const code = this.code_generator.generate();
+    //sms code to client
+    await this.email_service.sender(user.email, code);
     //check if code save for this email
     const last_code = await this.code_repository.find_one(
       {
@@ -63,19 +65,17 @@ class Get_reset_code_by_email {
       await this.code_repository.delete_one({
         email: value.email,
       });
-    //save generated code to database
+    //save new code to database
     const new_code: Code = {
-      target: "reset password",
-      email: value.email,
-      phone_number: "",
       code,
+      target: "password less login",
+      email,
+      phone_number: "",
     };
     await this.code_repository.add_new(new_code);
-    //send code to user email
-    await this.email_service.sender(value.email, code);
-    //return result
-    return { result: "code send to email", error: null };
+    //send result to client
+    return { result: "code emailed to client", error: null };
   }
 }
 
-export default Get_reset_code_by_email;
+export default Get_login_code_by_email;

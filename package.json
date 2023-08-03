@@ -17,12 +17,17 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "create:customer":"npx nestjs-command create:customer",
+    "create:product":"npx nestjs-command create:customer",
+    "destroy:customer":"npx nestjs-command create:customer",
+    "destroy:product":"npx nestjs-command create:customer"
   },
   "dependencies": {
     "@apollo/server": "^4.7.5",
     "@nestjs/apollo": "^12.0.7",
     "@nestjs/common": "^10.0.5",
+    "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^10.0.5",
     "@nestjs/graphql": "^12.0.8",
     "@nestjs/jwt": "^10.1.0",
@@ -35,15 +40,17 @@
     "fastest-validator": "^1.17.0",
     "graphql": "^16.7.1",
     "mongoose": "^7.4.1",
+    "nestjs-command": "^3.1.4",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
+    "uuid": "^9.0.0",
     "webpack": "^5.88.1"
   },
   "devDependencies": {
-    "@nestjs/cli": "^10.1.8",
+    "@nestjs/cli": "^10.1.11",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.5",
     "@types/bcrypt": "^5.0.0",

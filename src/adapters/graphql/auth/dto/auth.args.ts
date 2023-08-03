@@ -54,16 +54,16 @@ export class Reset_password_by_phone_number_args {
   new_password: string;
 }
 
+
 @ArgsType()
-@ArgsType()
-export class Get_login_code_by_email_args {
+export class Get_email_args {
   @Field()
   @MaxLength(255)
   email: string;
 }
 
 @ArgsType()
-export class Get_login_code_by_phone_number_args {
+export class Get_phone_number_args {
   @Field()
   @MaxLength(40)
   phone_number: string;

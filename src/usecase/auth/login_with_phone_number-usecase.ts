@@ -1,16 +1,16 @@
-import { hash_service } from 'src/domain/services/hash_service';
-import { jwt_service } from 'src/domain/services/jwt.interface';
-import { login_schema } from 'src/domain/common/auth';
-import customer_repository from 'src/domain/repository/customer_repository';
+import { hash_service } from "src/domain/services/hash_service";
+import { jwt_service } from "src/domain/services/jwt.interface";
+import { login_schema } from "src/domain/common/auth";
+import customer_repository from "src/domain/repository/customer_repository";
 
-import login_with_phone_number_validator from 'src/domain/validators/Auth/login_with_phone_number';
+import login_with_phone_number_validator from "src/domain/validators/Auth/login_with_phone_number";
 
 class Login_by_phone_number {
   constructor(
     private customer_repository: customer_repository,
     private validator: login_with_phone_number_validator,
     private Hash_service: hash_service,
-    private Token_service: jwt_service,
+    private Token_service: jwt_service
   ) {}
 
   /**
@@ -35,7 +35,7 @@ class Login_by_phone_number {
     });
     if (error)
       return {
-        error: { error_code: 123, message: error, path: 'login_with_email' },
+        error: { error_code: 123, message: error, path: "login_with_email" },
         token: null,
         user: null,
       };
@@ -44,14 +44,14 @@ class Login_by_phone_number {
       {
         phone_number: value.phone_number,
       },
-      { phone_number: true },
+      { phone_number: true }
     );
     if (!user)
       return {
         error: {
           error_code: 123,
-          message: 'user not found',
-          path: 'login_with_email',
+          message: "user not found",
+          path: "login_with_email",
         },
         token: null,
         user: null,
@@ -59,23 +59,29 @@ class Login_by_phone_number {
     //checking password validity
     const is_password_valid = this.Hash_service.compare(
       user.password,
-      password,
+      password
     );
     if (!is_password_valid)
       return {
         error: {
           error_code: 123,
-          message: 'password not valid',
-          path: 'login_with_email',
+          message: "password not valid",
+          path: "login_with_email",
         },
         token: null,
         user: null,
       };
+    const { uuid, first_name, last_name, profile_image, email } = user;
     //generate new jwt token
-    const token = this.Token_service.generate_token(
-      { uuid: user.uuid, role: 'customer' },
-      '1d',
-    );
+    const token = this.Token_service.generate_token({
+      uuid,
+      role: "customer",
+      first_name,
+      last_name,
+      email,
+      profile_image,
+      phone_number,
+    });
     //return token to user
     return { token, user, error: null };
   }

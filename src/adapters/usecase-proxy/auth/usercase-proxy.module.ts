@@ -2,7 +2,6 @@ import { Module, DynamicModule } from "@nestjs/common";
 import Customer_repository from "../../repository/customer.repository";
 import { Hash_service } from "../../services/bcrype/hash.service";
 import { Jwt_token_service } from "../../services/jwt/jwt.service";
-import { JwtService } from "@nestjs/jwt";
 import { Sms_sender_service } from "../../services/sms_sender/sms_sender.service";
 import { Code_generator_service } from "../../services/code_generator/code_generator.service";
 import Code_repository from "src/adapters/repository/code_repository";
@@ -32,6 +31,9 @@ import Hash_module from "src/adapters/services/bcrype/hash.module";
 import Jwt_module from "src/adapters/services/jwt/jwt.module";
 import Product_validator_module from "src/adapters/validators/Product/product.module";
 import Auth_validator from "src/adapters/validators/auth/auth.module";
+import { Email_sender_service } from "src/adapters/services/email_sender/email_sender.service";
+import Get_login_code_by_email from "src/usecase/auth/get_login_code_by_email-usecase";
+import email_validator from "src/domain/validators/Auth/email_validator";
 
 @Module({
   imports: [
@@ -46,7 +48,7 @@ import Auth_validator from "src/adapters/validators/auth/auth.module";
 })
 class Usecase_proxy_module {
   static Get_login_code_by_phone_number = "Get_login_code_by_phone_number";
-  // static Get_login_code_by_email = 'Get_login_code_by_email';
+  static Get_login_code_by_email = "Get_login_code_by_email";
   static Get_reset_code_by_email = "Get_reset_code_by_email";
   static Get_reset_code_by_phone_number = "Get_reset_code_by_phone_number";
   static Login_by_email = "Login_by_email";
@@ -92,11 +94,35 @@ class Usecase_proxy_module {
             Code_generator_service,
             Code_repository,
           ],
+          provide: Usecase_proxy_module.Get_login_code_by_email,
+          useFactory: (
+            customer_repository: Customer_repository,
+            auth_validator: Email_validator,
+            email_sender_service: Email_sender_service,
+            code_generator_service: Code_generator_service,
+            code_repository: Code_repository
+          ) =>
+            new Get_login_code_by_email(
+              customer_repository,
+              code_repository,
+              auth_validator,
+              email_sender_service,
+              code_generator_service
+            ),
+        },
+        {
+          inject: [
+            Customer_repository,
+            Email_validator,
+            Sms_sender_service,
+            Code_generator_service,
+            Code_repository,
+          ],
           provide: Usecase_proxy_module.Get_reset_code_by_email,
           useFactory: (
             customer_repository: Customer_repository,
             auth_validator: Email_validator,
-            sms_sender_service: Sms_sender_service,
+            sms_sender_service: Email_sender_service,
             code_generator_service: Code_generator_service,
             code_repository: Code_repository
           ) =>
@@ -266,7 +292,7 @@ class Usecase_proxy_module {
         },
       ],
       exports: [
-        // Usecase_proxy_module.Get_login_code_by_email,
+        Usecase_proxy_module.Get_login_code_by_email,
         Usecase_proxy_module.Get_login_code_by_phone_number,
         Usecase_proxy_module.Get_reset_code_by_email,
         Usecase_proxy_module.Get_reset_code_by_phone_number,

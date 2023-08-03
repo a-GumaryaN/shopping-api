@@ -10,7 +10,11 @@ export class Hash_service implements hash_service {
     return await bcrypt.hash(hashString, this.rounds);
   }
 
-  async compare(password: string, hashPassword: string): Promise<boolean> {
+  // async compare(password: string, hashPassword: string): Promise<boolean> {
+  //   // return await bcrypt.compare(password, hashPassword);
+  //   return true;
+  // }
+  async compare(password: string="unknown", hashPassword: string="unknown"): Promise<boolean> {
     return await bcrypt.compare(password, hashPassword);
   }
 }

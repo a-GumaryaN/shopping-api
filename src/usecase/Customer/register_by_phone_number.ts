@@ -92,10 +92,15 @@ class Register_by_phone_number {
       password: hashed_password,
     });
     //generate new token
-    const token = this.Token_service.generate_token(
-      { uuid, role: "customer" },
-      "2d"
-    );
+    const token = this.Token_service.generate_token({
+      uuid,
+      role: "customer",
+      first_name: new_customer.first_name,
+      last_name: new_customer.last_name,
+      phone_number: new_customer.phone_number,
+      profile_image: "",
+      email: "",
+    });
     //return result
     return {
       token,

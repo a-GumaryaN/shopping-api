@@ -82,10 +82,17 @@ class Reset_password_by_email {
       { email },
       { uuid: true },
     );
-    const token = this.Token_service.generate_token(
-      { uuid: user.uuid, role: 'customer' },
-      '1d',
-    );
+    const { uuid, first_name, last_name, profile_image, phone_number } = user;
+    //generate new jwt token
+    const token = this.Token_service.generate_token({
+      uuid,
+      role: "customer",
+      first_name,
+      last_name,
+      email,
+      profile_image,
+      phone_number,
+    });
     //return token to client
     return { token, user, error: null };
   }

@@ -4,7 +4,7 @@ const Validator = require("fastest-validator");
 const v = new Validator();
 
 const schema = {
-  phone_number: { type: "email", max: 255 },
+  phone_number: { type: "string", max: 20 },
   code: { type: "string", max: 40 },
 };
 

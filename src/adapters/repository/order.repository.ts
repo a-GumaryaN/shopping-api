@@ -1,6 +1,22 @@
-// import { Base_repository } from '.';
-// import { Order } from 'src/domain/model';
+import { Model } from "mongoose";
+import repository from "./base_repository";
 
-// const order_repository = new Base_repository<Order>('order');
+type entity_parameters = keyof Order;
+type selectable_model_value = Partial<Record<entity_parameters, boolean>>;
+import { InjectModel } from "@nestjs/mongoose";
+import { Order } from "src/domain/model";
+import { order } from "../entities/order.entity";
 
-// export default order_repository;
+class Order_repository
+  extends repository<order, selectable_model_value>
+  implements Order_repository
+{
+  constructor(
+    @InjectModel(order.name)
+    private readonly code_model: Model<order>
+  ) {
+    super(code_model);
+  }
+}
+
+export default Order_repository;

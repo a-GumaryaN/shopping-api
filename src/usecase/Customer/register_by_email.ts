@@ -93,9 +93,15 @@ class Register_by_email {
     });
     //generate new token
     const token = this.Token_service.generate_token(
-      { uuid, role: "customer" },
-      "2d"
-    );
+      {
+        uuid,
+        role: "customer",
+        first_name: new_customer.first_name,
+        last_name: new_customer.last_name,
+        email: new_customer.email,
+        profile_image: "",
+        phone_number: "",
+      });
     //return result
     return {
       token,

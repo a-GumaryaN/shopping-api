@@ -66,7 +66,7 @@ class File_upload_service {
       const new_path = join("upload/product", new_name);
 
       //push image link to images array
-      images.push("/file/product-image" + new_name);
+      images.push("/file/product/" + new_name);
 
       // move file to product directory
       rename(old_path, new_path, function (err) {

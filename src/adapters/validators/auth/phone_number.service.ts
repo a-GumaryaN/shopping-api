@@ -16,7 +16,6 @@ class Phone_number_validator implements phone_number_validator {
   }
   validate({ phone_number }) {
     const error = this.checker({ phone_number });
-
     const result =
       error !== true
         ? {

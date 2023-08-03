@@ -5,7 +5,7 @@ const v = new Validator();
 
 const schema = {
   email: { type: 'email', max: 255 },
-  code: { type: 'string', max: 40 },
+  code: { type: 'string', max: 40,required: true },
 };
 
 @Injectable()

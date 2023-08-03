@@ -6,7 +6,7 @@ import { join } from "path";
 @Controller("file")
 class File_controller {
   //route for get product image
-  @Get("product-image/:image")
+  @Get("product/:image")
   async product_image(
     @Param() { image }: any,
     @Res() res: Express_reponse_object
@@ -17,8 +17,8 @@ class File_controller {
     file.pipe(res);
   }
   
-  //route for get product image
-  @Get("customer-image/:image")
+  //route for get customer image
+  @Get("customer/:image")
   async customer_image(
     @Param() { image }: any,
     @Res() res: Express_reponse_object

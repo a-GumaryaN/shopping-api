@@ -55,7 +55,7 @@ class Password_less_login_by_phone_number {
         },
       };
     //check validity of code
-    if (registered_code !== code)
+    if (registered_code.code !== code)
       return {
         token: null,
         user: null,
@@ -65,12 +65,24 @@ class Password_less_login_by_phone_number {
           path,
         },
       };
+    //after successful code validation , delete code
+    await this.code_repository.delete_one({
+      phone_number,
+      target: "password less login",
+    });
     //generate token
     const user = await this.customer_repository.find_one({ phone_number }, {});
-    const token = this.Token_service.generate_token(
-      { uuid: user.uuid, role: 'customer' },
-      '1d',
-    );
+    const { uuid, first_name, last_name, profile_image, email } = user;
+    //generate new jwt token
+    const token = this.Token_service.generate_token({
+      uuid,
+      role: "customer",
+      first_name,
+      last_name,
+      email,
+      profile_image,
+      phone_number,
+    });
     //return token
     return { token, user, error: null };
   }

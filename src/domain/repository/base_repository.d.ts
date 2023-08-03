@@ -9,7 +9,9 @@ interface base_repository<Model> {
     pagination:{ skip: number; take: number }
   ): Promise<Partial<Model>[]>;
   add_new(new_object: Partial<Model>): Promise<boolean>;
+  add_many(new_object: Partial<Model>[]): Promise<boolean>;
   delete_one(identifire: any): Promise<boolean>;
+  delete_many(identifire: any): Promise<boolean>;
   update_one(identifire: any, new_object: Partial<Model>): Promise<boolean>;
 }
 
