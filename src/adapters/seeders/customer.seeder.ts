@@ -2,6 +2,7 @@ import { Command, Positional } from "nestjs-command";
 import { Injectable } from "@nestjs/common";
 import Customer_repository from "../repository/customer.repository";
 import { Hash_service } from "../services/bcrype/hash.service";
+import { Customer } from "src/domain/model";
 
 @Injectable()
 export class Customer_seeder {
@@ -13,7 +14,7 @@ export class Customer_seeder {
   @Command({ command: "create:customer", describe: "seed customer collection" })
   async create() {
     const hashed_password = await this.hash_service.hash("123456789");
-    const customers = [
+    const customers :Customer[] = [
       {
         first_name: "alireza",
         last_name: "rezaee",

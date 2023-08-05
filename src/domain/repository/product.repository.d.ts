@@ -9,7 +9,7 @@ interface product_repository extends base_repository<Product> {
   find_by_category(
     category: string,
     projection?: any
-  ): Promise<[Partial<Product>]>;
+  ): Promise<Partial<Product[]>>;
 }
 
 export default product_repository;

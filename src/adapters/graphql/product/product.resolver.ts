@@ -56,7 +56,7 @@ class Product_resolver {
   @Query(() => [Product_schema])
   async get_products_by_category(
     @Args() { category }: Get_product_by_category_args
-  ): Promise<[Partial<Product>]> {
+  ): Promise<Partial<Product>[]> {
     return await this.Get_product_by_category.action(category);
   }
 

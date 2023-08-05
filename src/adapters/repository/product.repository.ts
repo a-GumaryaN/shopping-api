@@ -12,6 +12,18 @@ class Product_repository
   extends repository<product, selectable_model_value>
   implements product_repository
 {
+  private readonly basic_projection = {
+    uuid: false,
+    product_name: true,
+    price: true,
+    images: true,
+    comments: true,
+    discount: true,
+    rate: true,
+    category: true,
+    description: true,
+  };
+
   constructor(
     @InjectModel(product.name)
     private readonly code_model: Model<product>
@@ -28,8 +40,10 @@ class Product_repository
   async find_by_category(
     category: string,
     projection?: any
-  ): Promise<[Partial<Product>]> {
-    return [{}];
+  ): Promise<Partial<Product[]>> {
+    const result = await this.code_model.find({"category":category});
+    console.log(result)
+    return result
   }
 }
 

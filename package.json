@@ -19,9 +19,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "create:customer":"npx nestjs-command create:customer",
-    "create:product":"npx nestjs-command create:customer",
-    "destroy:customer":"npx nestjs-command create:customer",
-    "destroy:product":"npx nestjs-command create:customer"
+    "create:product":"npx nestjs-command create:product",
+    "destroy:customer":"npx nestjs-command destroy:customer",
+    "destroy:product":"npx nestjs-command destroy:product"
   },
   "dependencies": {
     "@apollo/server": "^4.7.5",

@@ -20,6 +20,27 @@ type Comment_schema {
   reply: [Reply_schema!]!
 }
 
+"""discount"""
+type Discount_schema {
+  expire_time: Float!
+  amount: Float!
+}
+
+"""color"""
+type Color {
+  color_name: String!
+  color_code: String!
+}
+
+"""phone_description"""
+type Phone_description {
+  brand: String!
+  colors: [Color!]!
+  display_technology: String!
+  display_size: Float!
+  OS: String!
+}
+
 """product """
 type Product_schema {
   uuid: String!
@@ -28,6 +49,9 @@ type Product_schema {
   images: [String!]!
   comments: [Comment_schema!]!
   rate: Float!
+  discount: Discount_schema!
+  category: [String!]!
+  description: Phone_description!
 }
 
 """order """
