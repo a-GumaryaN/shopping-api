@@ -71,7 +71,7 @@ class Get_reset_code_by_phone_number {
     //send code to user email
     await this.email_service.sender(value.email, code);
     //return result
-    return { result: "code sms to phone_number", error: null };
+    return { result: "code sms to phone_number"+code, error: null };
   }
 }
 

@@ -74,7 +74,7 @@ class Get_login_code_by_email {
     };
     await this.code_repository.add_new(new_code);
     //send result to client
-    return { result: "code emailed to client", error: null };
+    return { result: "code emailed to client"+code, error: null };
   }
 }
 

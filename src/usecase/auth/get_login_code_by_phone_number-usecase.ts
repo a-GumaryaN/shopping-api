@@ -74,7 +74,7 @@ class Get_login_code_by_phone_number {
     };
     await this.code_repository.add_new(new_code);
     //send result to client
-    return { result: "code sms to client", error: null };
+    return { result: "code sms to client"+code, error: null };
   }
 }
 

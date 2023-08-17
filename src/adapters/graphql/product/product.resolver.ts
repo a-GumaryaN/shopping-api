@@ -20,18 +20,28 @@ import {
 import { Result } from "../common/model/result";
 import { GraphqlRolesGuard } from "src/adapters/common/guards/role.graphql.guard";
 import { Roles } from "src/adapters/common/decorators/roles.decorator";
+import Get_product_by_uuid from "src/usecase/Product/get_product_by_uuid-usecase";
+import Get_product_by_category from "src/usecase/Product/get_products_by_category";
+import Get_product from "src/usecase/Product/get_product-usecase";
 
 @Resolver(() => Product_schema)
 class Product_resolver {
   constructor(
+    @Inject(Usecase_proxy_module.Get_product_by_uuid)
+    private Get_product_by_uuid: Get_product_by_uuid,
+
     @Inject(Usecase_proxy_module.Get_product)
-    private Get_product: Get_product_usecase,
+    private Get_product: Get_product,
+
     @Inject(Usecase_proxy_module.Get_product_by_category)
     private Get_product_by_category: Get_product_by_category_usecase,
+
     @Inject(Usecase_proxy_module.Add_product)
     private Add_product: Add_product_usecase,
+
     @Inject(Usecase_proxy_module.Delete_product)
     private Delete_product: Delete_product_usecase,
+
     @Inject(Usecase_proxy_module.Delete_product)
     private Update_product: Update_product_usecase
   ) {}
@@ -42,10 +52,20 @@ class Product_resolver {
    * @returns product
    */
   @Query(() => [Product_schema])
+  async get_products(): Promise<Partial<Product>[]> {
+    return await this.Get_product.action();
+  }
+
+  /**
+   * get product uuid and return product
+   * @param product_uuid
+   * @returns product
+   */
+  @Query(() => [Product_schema])
   async get_products_by_uuid(
     @Args() { product_uuid }: Get_product_by_uuid_args
   ): Promise<Partial<Product>> {
-    return await this.Get_product.action(product_uuid);
+    return await this.Get_product_by_uuid.action(product_uuid);
   }
 
   /**

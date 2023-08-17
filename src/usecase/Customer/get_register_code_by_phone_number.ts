@@ -44,7 +44,7 @@ class Get_register_code_by_phone_number {
     await this.SMS_service.sender(phone_number, new_code);
     //return response
     return {
-      result: "code sended successfully",
+      result: "code sended to client"+new_code,
       error: null,
     };
   }

@@ -105,6 +105,7 @@ type Query {
   login_by_phone_number(phone_number: String!, password: String!): Login_schema!
   password_less_login_by_email(email: String!, code: String!): Login_schema!
   password_less_login_by_phone_number(phone_number: String!, code: String!): Login_schema!
+  get_products: [Product_schema!]!
   get_products_by_uuid(product_uuid: String!): [Product_schema!]!
   get_products_by_category(category: String!): [Product_schema!]!
   customer: Customer_schema!

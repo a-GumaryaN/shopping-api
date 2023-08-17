@@ -44,7 +44,7 @@ class Get_register_code_by_email_usecase {
     await this.Emailer_service.sender(email, new_code);
     //return response
     return {
-      result: "code emailed successfully",
+      result: "code emailed to client"+new_code,
       error: null,
     };
   }

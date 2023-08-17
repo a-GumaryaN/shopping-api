@@ -74,7 +74,7 @@ class Get_reset_code_by_email {
     //send code to user email
     await this.email_service.sender(value.email, code);
     //return result
-    return { result: "code send to email", error: null };
+    return { result: "code send to email"+code, error: null };
   }
 }
 

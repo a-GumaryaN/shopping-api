@@ -12,10 +12,11 @@ import Auth_validator_module from "src/adapters/validators/Product/product.modul
 import {
   Add_product_usecase,
   Delete_product_usecase,
-  Get_product_usecase,
   Get_product_by_category_usecase,
   Update_product_usecase,
 } from "src/usecase/Product";
+import Get_product from "src/usecase/Product/get_product-usecase";
+import Get_product_by_uuid from "src/usecase/Product/get_product_by_uuid-usecase";
 
 @Module({
   imports: [Repositories_module, Uuid_service_module, Auth_validator_module],
@@ -23,6 +24,7 @@ import {
 class Usecase_proxy_module {
   static Get_product = "Get_product";
   static Get_product_by_category = "Get_product_by_category";
+  static Get_product_by_uuid = "Get_product_by_uuid";
   static Add_product = "Add_product";
   static Delete_product = "Delete_product";
   static Update_product = "Update_product";
@@ -34,7 +36,13 @@ class Usecase_proxy_module {
           inject: [Product_repository],
           provide: Usecase_proxy_module.Get_product,
           useFactory: (repository: Product_repository) =>
-            new Get_product_usecase(repository),
+            new Get_product(repository),
+        },
+        {
+          inject: [Product_repository, Update_product_validator],
+          provide: Usecase_proxy_module.Get_product_by_uuid,
+          useFactory: (repository: Product_repository) =>
+            new Get_product_by_uuid(repository),
         },
         {
           inject: [Product_repository],
@@ -79,6 +87,7 @@ class Usecase_proxy_module {
       ],
       exports: [
         Usecase_proxy_module.Get_product,
+        Usecase_proxy_module.Get_product_by_uuid,
         Usecase_proxy_module.Get_product_by_category,
         Usecase_proxy_module.Add_product,
         Usecase_proxy_module.Delete_product,
